@@ -1,4 +1,4 @@
-import 'package:trogon/models/subject.dart';
+import 'package:trogon/models/subjects_model.dart';
 
 abstract class SubjectState {}
 

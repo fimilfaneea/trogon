@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:trogon/models/modules.dart';
+import 'package:trogon/models/modules_model.dart';
 
 class ApiService {
   final String baseUrl = "https://trogon.info/interview/php/api/";
@@ -14,13 +14,13 @@ class ApiService {
     }
   }
 
-  Future<List<Module>> fetchModules(String subjectId) async {
-    final response = await http
-        .get(Uri.parse('${baseUrl}modules.php?subject_id=$subjectId'));
+  Future<List<Module>> getModules(String subjectId) async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/modules.php?subject_id=$subjectId'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      return data.map((module) => Module.fromJson(module)).toList();
+      return data.map((json) => Module.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load modules');
     }

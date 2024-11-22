@@ -1,5 +1,5 @@
-import 'package:trogon/services/fetch_api.dart';
-import 'package:trogon/models/subject.dart';
+import 'package:trogon/services/api_services.dart';
+import 'package:trogon/models/subjects_model.dart';
 
 class SubjectRepository {
   final ApiService apiService;

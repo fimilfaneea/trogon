@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trogon/bloc/subjects/subject_bloc.dart';
-import 'package:trogon/bloc/subjects/subject_event.dart';
-import 'package:trogon/bloc/subjects/subject_state.dart';
+import 'package:trogon/bloc/subjects/subjects_bloc.dart';
+import 'package:trogon/bloc/subjects/subjects_event.dart';
+import 'package:trogon/bloc/subjects/subjects_state.dart';
 
 class SubjectsScreen extends StatelessWidget {
   const SubjectsScreen({super.key});

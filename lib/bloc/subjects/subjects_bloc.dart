@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'subject_event.dart';
-import 'subject_state.dart';
-import 'package:trogon/repositories/subject.dart';
+import 'subjects_event.dart';
+import 'subjects_state.dart';
+import 'package:trogon/repositories/subjects_repo.dart';
 
 class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   final SubjectRepository repository;
