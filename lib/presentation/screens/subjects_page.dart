@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trogon/bloc/subjects/subject_bloc.dart';
+import 'package:trogon/presentation/screens/modules_page.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
 
   @override
-  SubjectsScreenState createState() =>
-      SubjectsScreenState(); // Renamed to public class name
+  SubjectsScreenState createState() => SubjectsScreenState();
 }
 
 class SubjectsScreenState extends State<SubjectsScreen> {
-  // Renamed to public class name
   @override
   void initState() {
     super.initState();
@@ -33,8 +32,48 @@ class SubjectsScreenState extends State<SubjectsScreen> {
             return ListView.builder(
               itemCount: state.subjects.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(state.subjects[index].title),
+                // Check if the image URL ends with .jpg, and change it to .png
+                String imageUrl = state.subjects[index].image;
+                if (imageUrl.endsWith('.jpg')) {
+                  imageUrl = imageUrl.replaceAll('.jpg', '.png');
+                }
+
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // On tap, navigate to the ModulesPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ModulesPage(
+                              subjectId: state.subjects[index].id,
+                              subjectTitle: state.subjects[index].title,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Image.network(
+                          imageUrl, // Use the updated image URL
+                          width: 100, // You can adjust the size as needed
+                          height: 100, // Adjust the height if needed
+                          fit: BoxFit.cover, // Adjust how the image should fit in the space
+                        ),
+                        title: Column(
+                          children: [
+                            Text(state.subjects[index].title),
+                            Text(
+                              state.subjects[index].description,
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Add a gap between tiles
+                    const SizedBox(height: 10), // Adjust the height as needed
+                  ],
                 );
               },
             );
