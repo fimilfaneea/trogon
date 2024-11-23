@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trogon/bloc/subjects/subject_bloc.dart';
 import 'package:trogon/presentation/screens/modules_page.dart';
 import 'package:trogon/presentation/widgets/custom_container.dart';
+import 'package:trogon/presentation/widgets/subjects_tile.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
@@ -38,56 +39,11 @@ class SubjectsScreenState extends State<SubjectsScreen> {
                 if (imageUrl.endsWith('.jpg')) {
                   imageUrl = imageUrl.replaceAll('.jpg', '.png');
                 }
-
-                return Column(
-                  children: [
-                    ShadowedContainer(
-                      padding: const EdgeInsets.all(0),
-                      height: 120,
-                      child: GestureDetector(
-                        onTap: () {
-                          // On tap, navigate to the ModulesPage
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ModulesPage(
-                                subjectId: state.subjects[index].id,
-                                subjectTitle: state.subjects[index].title,
-                              ),
-                            ),
-                          );
-                        },
-                        child: ListTile(
-                          leading: Image.network(
-                            imageUrl, // Use the updated image URL
-                           
-                            fit: BoxFit
-                                .fill, // Adjust how the image should fit in the space
-                          ),
-                          title: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
-                                    state.subjects[index].title,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              Text(
-                                state.subjects[index].description,
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Add a gap between tiles
-                    const SizedBox(height: 10), // Adjust the height as needed
-                  ],
-                );
+                return SubjectTile(
+                    imageUrl: imageUrl,
+                    subjectId: state.subjects[index].id,
+                    subjectTitle: state.subjects[index].title,
+                    subjectDescription: state.subjects[index].description);
               },
             );
           } else if (state is SubjectErrorState) {
