@@ -36,12 +36,20 @@ class ModulesPageState extends State<ModulesPage> {
 
   // Fetch modules (mocking service call here)
   Future<void> _fetchModules() async {
-    // Mock fetch from service
-    final modules = await FetchModulesService().fetchModules(widget.subjectId);
-    setState(() {
-      allModules = modules;
-      filteredModules = modules; // Initially, show all modules
-    });
+    if (widget.subjectId == '1') {
+      // Mock fetch from service only if subjectId == '1'
+      final modules = await FetchModulesService().fetchModules(widget.subjectId);
+      setState(() {
+        allModules = modules;
+        filteredModules = modules; // Initially, show all modules
+      });
+    } else {
+      // If subjectId is not '1', show no modules
+      setState(() {
+        allModules = [];
+        filteredModules = [];
+      });
+    }
   }
 
   // Filtering function for modules based on search query
@@ -73,7 +81,6 @@ class ModulesPageState extends State<ModulesPage> {
                 ),
               ),
               onChanged: (query) {
-                print("Fimil Search Query: $query");
                 setState(() {
                   filteredModules = _filterModules(allModules, query);
                 });

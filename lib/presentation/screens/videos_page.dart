@@ -24,13 +24,19 @@ class VideosPageState extends State<VideosPage> {
     // Fetch the module ID passed as argument
     moduleId = ModalRoute.of(context)?.settings.arguments as int?;
 
-    if (moduleId != null) {
+    if (moduleId != null && moduleId == 1) {
       _videosFuture = VideosService().fetchVideos(moduleId!);
       _videosFuture.then((videos) {
         setState(() {
           allVideos = videos;
           filteredVideos = videos; // Initially, show all videos
         });
+      });
+    } else {
+      // If moduleId is not 1, show no videos
+      setState(() {
+        allVideos = [];
+        filteredVideos = [];
       });
     }
   }
@@ -77,7 +83,6 @@ class VideosPageState extends State<VideosPage> {
                 ),
               ),
               onChanged: (query) {
-                print("Search Query: $query");
                 setState(() {
                   filteredVideos = _filterVideos(allVideos, query);
                 });
@@ -85,33 +90,35 @@ class VideosPageState extends State<VideosPage> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<Video>>(
-              future: _videosFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+            child: moduleId == 1
+                ? FutureBuilder<List<Video>>(
+                    future: _videosFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
 
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No videos available.'));
-                }
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text('No videos available.'));
+                      }
 
-                // Filtered videos based on the search query
-                final videos = filteredVideos;
+                      // Filtered videos based on the search query
+                      final videos = filteredVideos;
 
-                return ListView.builder(
-                  itemCount: videos.length,
-                  itemBuilder: (context, index) {
-                    final video = videos[index];
-                    return VideoTile(video: video); // Use the VideoTile widget
-                  },
-                );
-              },
-            ),
+                      return ListView.builder(
+                        itemCount: videos.length,
+                        itemBuilder: (context, index) {
+                          final video = videos[index];
+                          return VideoTile(video: video); // Use the VideoTile widget
+                        },
+                      );
+                    },
+                  )
+                : const Center(child: Text('No videos available for this module.')),
           ),
         ],
       ),

@@ -25,9 +25,9 @@ class VideoTile extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => VideoPlayerPage(
-                videoType: video.videoType,
                 videoUrl: video.videoUrl,
                 videoTitle: video.title,
+                videoDescription: video.description,
               ),
             ),
           );
