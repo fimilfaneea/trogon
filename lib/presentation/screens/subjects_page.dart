@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trogon/bloc/subjects/subject_bloc.dart';
 import 'package:trogon/presentation/screens/modules_page.dart';
+import 'package:trogon/presentation/widgets/custom_container.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
@@ -26,7 +27,7 @@ class SubjectsScreenState extends State<SubjectsScreen> {
       ),
       body: BlocBuilder<SubjectBloc, SubjectState>(
         builder: (context, state) {
-          if (state is SubjectInitialState) {
+          if (state is SubjectInitialState || state is SubjectLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SubjectLoadedState) {
             return ListView.builder(
@@ -40,34 +41,46 @@ class SubjectsScreenState extends State<SubjectsScreen> {
 
                 return Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // On tap, navigate to the ModulesPage
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ModulesPage(
-                              subjectId: state.subjects[index].id,
-                              subjectTitle: state.subjects[index].title,
+                    ShadowedContainer(
+                      padding: const EdgeInsets.all(0),
+                      height: 120,
+                      child: GestureDetector(
+                        onTap: () {
+                          // On tap, navigate to the ModulesPage
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ModulesPage(
+                                subjectId: state.subjects[index].id,
+                                subjectTitle: state.subjects[index].title,
+                              ),
                             ),
+                          );
+                        },
+                        child: ListTile(
+                          leading: Image.network(
+                            imageUrl, // Use the updated image URL
+                           
+                            fit: BoxFit
+                                .fill, // Adjust how the image should fit in the space
                           ),
-                        );
-                      },
-                      child: ListTile(
-                        leading: Image.network(
-                          imageUrl, // Use the updated image URL
-                          width: 100, // You can adjust the size as needed
-                          height: 100, // Adjust the height if needed
-                          fit: BoxFit.cover, // Adjust how the image should fit in the space
-                        ),
-                        title: Column(
-                          children: [
-                            Text(state.subjects[index].title),
-                            Text(
-                              state.subjects[index].description,
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                          ],
+                          title: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                    state.subjects[index].title,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Text(
+                                state.subjects[index].description,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

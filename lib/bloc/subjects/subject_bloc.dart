@@ -32,13 +32,10 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
 
   SubjectBloc(this.subjectRepository) : super(SubjectInitialState()) {
     on<FetchSubjectsEvent>((event, emit) async {
-      print("Fetching subjects..."); // Add this line
       try {
         final subjects = await subjectRepository.fetchSubjects();
-        print("Subjects fetched: $subjects"); // Add this line
         emit(SubjectLoadedState(subjects));
       } catch (e) {
-        print("Error fetching subjects: $e"); // Add this line
         emit(SubjectErrorState("Failed to fetch subjects"));
       }
     });

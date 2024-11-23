@@ -9,7 +9,7 @@ class FetchSubjectsService {
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      print("Fetched Subjects: $json"); // Print to check if fetching works properly
+
       return json;
     } else {
       throw Exception("Failed to fetch subjects");

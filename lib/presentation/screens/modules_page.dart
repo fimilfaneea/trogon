@@ -1,5 +1,3 @@
-// screens/modules_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trogon/bloc/modules/modules_bloc.dart';
@@ -34,7 +32,17 @@ class ModulesPage extends StatelessWidget {
                 itemCount: state.modules.length,
                 itemBuilder: (context, index) {
                   final module = state.modules[index];
-                  return ModuleTile(module: module);
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigate to VideosPage using the named route and passing moduleId as argument
+                      Navigator.pushNamed(
+                        context,
+                        '/videos',
+                        arguments: module.id, // Pass moduleId as argument
+                      );
+                    },
+                    child: ModuleTile(module: module),
+                  );
                 },
               );
             }

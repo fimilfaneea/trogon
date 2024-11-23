@@ -7,10 +7,10 @@ class VideosPage extends StatefulWidget {
   const VideosPage({super.key});
 
   @override
-  _VideosPageState createState() => _VideosPageState();
+  VideosPageState createState() => VideosPageState();
 }
 
-class _VideosPageState extends State<VideosPage> {
+class VideosPageState extends State<VideosPage> {
   late Future<List<Video>> _videos;
   int? moduleId;
 
