@@ -1,5 +1,6 @@
 /// A Dart file defining the states for the Video Bloc,
 /// which manages the state of video-related data within the application.
+library;
 
 import 'package:equatable/equatable.dart';
 import 'package:trogon/models/videos_model.dart';
