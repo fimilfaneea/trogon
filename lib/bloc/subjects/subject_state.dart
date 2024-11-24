@@ -1,37 +1,37 @@
-/// A Dart file defining the states for the Module Bloc,
-/// which manages the state of module-related data within the application.
+/// A Dart file defining the states for the Subject Bloc,
+/// which manages the state of subject-related data within the application.
 library;
 
-import 'package:trogon/models/modules_model.dart';
+import 'package:trogon/models/subjects_model.dart';
 
-/// The base state class for all Module-related states.
-/// This class is extended by all specific states in the Module Bloc.
-abstract class ModuleState {}
+/// The base state class for all Subject-related states.
+/// This class is extended by all specific states in the Subject Bloc.
+abstract class SubjectState {}
 
-/// Represents the initial state of the Module Bloc before any action occurs.
-class ModuleInitial extends ModuleState {}
+/// Represents the initial state of the Subject Bloc before any action occurs.
+class SubjectInitial extends SubjectState {}
 
-/// Represents the state when the Module Bloc is actively loading data.
-class ModuleLoading extends ModuleState {}
+/// Represents the state when the Subject Bloc is actively loading data.
+class SubjectLoading extends SubjectState {}
 
-/// Represents the state when the Module Bloc successfully loads a list of modules.
-class ModuleLoaded extends ModuleState {
-  /// The list of loaded modules.
-  final List<Module> modules;
+/// Represents the state when the Subject Bloc successfully loads a list of subjects.
+class SubjectLoaded extends SubjectState {
+  /// The list of loaded subjects.
+  final List<Subject> subjects;
 
-  /// Constructs a [ModuleLoaded] state with the provided list of modules.
+  /// Constructs a [SubjectLoaded] state with the provided list of subjects.
   ///
-  /// - [modules]: A list of [Module] objects that have been successfully loaded.
-  ModuleLoaded(this.modules);
+  /// - [subjects]: A list of [Subject] objects that have been successfully loaded.
+  SubjectLoaded(this.subjects);
 }
 
-/// Represents the state when an error occurs in the Module Bloc.
-class ModuleError extends ModuleState {
+/// Represents the state when an error occurs in the Subject Bloc.
+class SubjectError extends SubjectState {
   /// The error message describing the issue.
   final String message;
 
-  /// Constructs a [ModuleError] state with the provided error message.
+  /// Constructs a [SubjectError] state with the provided error message.
   ///
   /// - [message]: A string describing the error that occurred.
-  ModuleError(this.message);
+  SubjectError(this.message);
 }
