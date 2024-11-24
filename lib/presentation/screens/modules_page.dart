@@ -3,28 +3,45 @@ import 'package:trogon/models/modules_model.dart';
 import 'package:trogon/presentation/widgets/modules_tile.dart';
 import 'package:trogon/services/modules_service.dart';
 
+/// A page displaying a list of modules for a specific subject.
+///
+/// This page allows the user to search for modules by title. The modules
+/// are fetched from a service based on the [subjectId] and are displayed
+/// in a list. The user can tap on a module to navigate to a related video
+/// page.
 class ModulesPage extends StatefulWidget {
+  /// The unique identifier for the subject.
   final String subjectId;
+
+  /// The title of the subject.
   final String subjectTitle;
 
-  const ModulesPage(
-      {super.key, required this.subjectId, required this.subjectTitle});
+  const ModulesPage({
+    super.key,
+    required this.subjectId,
+    required this.subjectTitle,
+  });
 
   @override
   ModulesPageState createState() => ModulesPageState();
 }
 
 class ModulesPageState extends State<ModulesPage> {
+  /// Controller for the search input field.
   late TextEditingController _searchController;
-  List<Module> allModules = []; // To hold all the modules
-  List<Module> filteredModules = []; // To hold filtered modules
+
+  /// A list to hold all modules fetched from the service.
+  List<Module> allModules = [];
+
+  /// A list to hold the filtered modules based on the search query.
+  List<Module> filteredModules = [];
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
 
-    // Fetch all modules for this subject
+    // Fetch all modules when the page is initialized.
     _fetchModules();
   }
 
@@ -34,7 +51,10 @@ class ModulesPageState extends State<ModulesPage> {
     super.dispose();
   }
 
-  // Fetch modules (mocking service call here)
+  /// Fetches modules for the given subject ID from the service.
+  ///
+  /// If the [subjectId] is '1', it will mock a service call and fetch modules.
+  /// If the [subjectId] is anything other than '1', no modules will be fetched.
   Future<void> _fetchModules() async {
     if (widget.subjectId == '1') {
       // Mock fetch from service only if subjectId == '1'
@@ -52,7 +72,13 @@ class ModulesPageState extends State<ModulesPage> {
     }
   }
 
-  // Filtering function for modules based on search query
+  /// Filters the list of modules based on the search query.
+  ///
+  /// The function compares the module title with the search query and returns
+  /// a list of modules whose title contains the query.
+  ///
+  /// [allModules]: The list of all available modules.
+  /// [value]: The search query entered by the user.
   List<Module> _filterModules(List<Module> allModules, String value) {
     final lowerCaseValue = value.toLowerCase();
     return allModules
@@ -69,6 +95,7 @@ class ModulesPageState extends State<ModulesPage> {
       ),
       body: Column(
         children: [
+          // Search input field for filtering modules by title.
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -80,6 +107,7 @@ class ModulesPageState extends State<ModulesPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
+              // Update the filtered modules list when the search query changes.
               onChanged: (query) {
                 setState(() {
                   filteredModules = _filterModules(allModules, query);
@@ -87,6 +115,7 @@ class ModulesPageState extends State<ModulesPage> {
               },
             ),
           ),
+          // Display the filtered modules in a list view.
           Expanded(
             child: filteredModules.isEmpty
                 ? const Center(child: Text('No modules found.'))
@@ -96,6 +125,7 @@ class ModulesPageState extends State<ModulesPage> {
                       final module = filteredModules[index];
                       return GestureDetector(
                         onTap: () {
+                          // Navigate to the video page when a module is tapped.
                           Navigator.pushNamed(
                             context,
                             '/videos',
